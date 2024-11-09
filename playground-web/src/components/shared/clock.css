@@ -1,0 +1,73 @@
+/* General loader styles */
+
+.timer-loader {
+  --clock-color: black;
+  --clock-width: 14px;
+  --clock-radius: calc(var(--clock-width) / 2);
+  --clock-minute-length: calc(var(--clock-width) * 0.45);
+  --clock-hour-length: calc(var(--clock-width) * 0.35);
+  --clock-thickness: 2px;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--clock-width);
+  height: var(--clock-width);
+  border: 2px solid var(--clock-color);
+  border-radius: 50%;
+}
+
+/* Static loader styles */
+
+.timer-loader.timer-loader-static::before,
+.timer-loader.timer-loader-static::after {
+  position: absolute;
+  content: '';
+  top: calc(var(--clock-radius) * 0.25);
+  width: var(--clock-thickness);
+  background: var(--clock-color);
+  border-radius: 10px;
+  transform-origin: center calc(100% - calc(var(--clock-thickness) / 2));
+}
+
+.timer-loader.timer-loader-static::before {
+  height: var(--clock-minute-length);
+}
+
+.timer-loader.timer-loader-static::after {
+  top: calc(var(--clock-radius) * -0.25 + var(--clock-hour-length));
+  height: var(--clock-hour-length);
+  transform: rotate(90deg);
+}
+
+/* Animated loader styles */
+
+.timer-loader.timer-loader-animated::before,
+.timer-loader.timer-loader-animated::after {
+  position: absolute;
+  content: '';
+  top: calc(var(--clock-radius) * 0.25);
+  width: var(--clock-thickness);
+  background: var(--clock-color);
+  border-radius: 10px;
+  transform-origin: center calc(100% - calc(var(--clock-thickness) / 2));
+  animation: timer-spin infinite linear;
+}
+
+.timer-loader.timer-loader-animated::before {
+  height: var(--clock-minute-length);
+  animation-duration: 6s;
+}
+
+.timer-loader.timer-loader-animated::after {
+  top: calc(var(--clock-radius) * -0.25 + var(--clock-hour-length));
+  height: var(--clock-hour-length);
+  animation-duration: 45s;
+}
+
+@keyframes timer-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
