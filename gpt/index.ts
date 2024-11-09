@@ -1,0 +1,6 @@
+// export * from './src/model.v0.easier'
+export * from './src/model.v1.faster'
+export * from './src/config'
+export * from './src/trainer'
+export * from './src/types'
+export * from './src/dataset'
