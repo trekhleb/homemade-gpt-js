@@ -68,7 +68,6 @@ export function GPT(params: ModelParams): Model {
       return loss
     }),
 
-    // @todo: Dispose. Memory leaks.
     // Take a sequence of indices idx (tensor of shape (B, T), with 0 as a mask) and complete the
     // sequence maxNewTokens times, feeding the predictions back into the model each time
     generate: async (params, onGenerateChar) => {
