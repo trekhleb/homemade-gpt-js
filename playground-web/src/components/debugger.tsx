@@ -72,7 +72,7 @@ export function Debugger(props: DebuggerProps) {
               onClick={onTensorInfo}
               overrides={{ Root: { style: { width: '100%' } } }}
             >
-              Print EngineState console
+              Print EngineState to console
             </Button>
           </Block>
 
