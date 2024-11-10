@@ -26,7 +26,7 @@ Inside the [./gpt/src/](./gpt/src/) folder you'll find the following files:
 
 To experiment with model parameters, training, and text generation you may use the [homemade GPT playground](https://trekhleb.dev/homemade-gpt-js).
 
-||
+|http://trekhleb.dev/homemade-gpt-js|
 |---|
 |![Homemade GPT playground](./playground-web/public/playground-demo.gif)|
 
