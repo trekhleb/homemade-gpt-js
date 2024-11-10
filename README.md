@@ -9,7 +9,7 @@ To understand what's going on here please check this detailed and nicely explain
 
 ### GPT Model
 
-[model.ts](./gpt/src/model.v1.faster.ts)
+[model.ts](./gpt/src/model.ts)
 
 ### Web Playground
 

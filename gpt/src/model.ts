@@ -9,7 +9,7 @@
  * To understand what's going on here please check this detailed and nicely explained lecture from Andrej Karpathy:
  * - https://www.youtube.com/watch?v=kCc8FmEb1nY
  *
- * This is a faster (but harder to grasp) version of the model from the ./model.v0.easier.ts file.
+ * This is a faster (but harder to grasp) version of the model from the ./model-easier.ts file.
  * - It processes all `Heads` inside `CausalSelfAttention` in parallel (instead of sequentially).
  */
 import * as tf from '@tensorflow/tfjs'

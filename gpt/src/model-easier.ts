@@ -9,7 +9,7 @@
  * To understand what's going on here please check this detailed and nicely explained lecture from Andrej Karpathy:
  * - https://www.youtube.com/watch?v=kCc8FmEb1nY
  *
- * This is a simplified (but slower) version of the model from the ./model.v1.faster.ts file.
+ * This is a simplified (but slower) version of the model from the ./model.ts file.
  * - It processes all `Heads` inside `CausalSelfAttention` sequentially (instead of in parallel).
  * - It lacks the `disposal()` and tf.tidy() calls so it contains memory-leaks (!).
  * - It doesn't have initial initializers for some dense and norm layers.
