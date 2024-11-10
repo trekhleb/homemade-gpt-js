@@ -48,10 +48,20 @@ Run these commands from the root of the project. You need to have Node.js ≥ 20
 
 ### Node.js Playground
 
-Node.js >20.0.0 is required
+You may also experiment with the model in Node.js environment.
+
+Install dependencies: 
 
 ```sh
 npm i
 ```
 
-@todo add GPT image with highlighted decoder
+Launch Node.js playground:
+
+```sh
+npm run playground-node
+```
+
+The [./playground-node/src/index.ts](./playground-node/src/index.ts) file contains the basic example of training and text generation.
+
+Run these commands from the root of the project. You need to have Node.js ≥ 20.0.0.
