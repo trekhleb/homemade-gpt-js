@@ -110,7 +110,7 @@ export function Generator(props: GeneratorProps) {
   const isFormDisabled = isGenerating
   const isGenerationAllowed = !isGenerating && !formError && model && dataset
 
-  const generatedTextForm = (
+  const generatedTextForm = (generatedText || isGenerating) && (
     <FadeIn>
       <Block marginTop="scale800">
         <FormControl
