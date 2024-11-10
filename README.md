@@ -24,13 +24,27 @@ Inside the [./gpt/src/](./gpt/src/) folder you'll find the following files:
 
 ### Web Playground
 
-Node.js >20.0.0 is required
+To experiment with model parameters, training, and text generation you may use the [homemade GPT playground](https://trekhleb.dev/homemade-gpt-js).
+
+![Homemade GPT playground](./playground-web/public/playground-demo.gif)
+
+You may also launch the playground locally if you want to modify and experiment with the code of the transformer model itself.
+
+Install dependencies: 
 
 ```sh
 npm i
 ```
 
-http://localhost:3000/ 
+Launch web playground locally:
+
+```sh
+npm run playground-web
+```
+
+The playground will be accessible on http://localhost:3000/homemade-gpt-js 
+
+Run these commands from the root of the project. You need to have Node.js ≥ 20.0.0.
 
 ### Node.js Playground
 
