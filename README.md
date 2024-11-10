@@ -27,7 +27,7 @@ Inside the [./gpt/src/](./gpt/src/) folder you'll find the following files:
 To experiment with model parameters, training, and text generation you may use the [Homemade GPT JS playground](https://trekhleb.dev/homemade-gpt-js).
 
 |[Homemade GPT JS playground](https://trekhleb.dev/homemade-gpt-js)|
-|:--|
+|---|
 |![Homemade GPT playground](./playground-web/public/playground-demo.gif)|
 
 You may also launch the playground locally if you want to modify and experiment with the code of the transformer model itself.
