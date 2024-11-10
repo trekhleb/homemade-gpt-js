@@ -22,6 +22,10 @@ export function Debugger(props: DebuggerProps) {
     setMemory(tf.memory())
   }
 
+  const onTensorInfo = () => {
+    console.log(tf.engine().state)
+  }
+
   const onModelDispose = () => {
     model?.dispose?.()
     onMemoryInfo()
@@ -38,46 +42,61 @@ export function Debugger(props: DebuggerProps) {
   }, [backend, model, dataset])
 
   return (
-    <Block display="flex" flexDirection={['column', 'column', 'row']} gridGap="scale600">
-      <Block display="flex" flexDirection="column" gridGap="scale600" flex="1">
-        <Block display="flex">
-          <Button
-            onClick={onModelDispose}
-            overrides={{ Root: { style: { width: '100%' } } }}
-          >
-            Dispose Model
-          </Button>
+    <>
+      <Block
+        display="flex"
+        flexDirection={['column', 'column', 'row']}
+        gridGap="scale600"
+      >
+        <Block display="flex" flexDirection="column" gridGap="scale600" flex="1">
+          <Block display="flex">
+            <Button
+              onClick={onModelDispose}
+              overrides={{ Root: { style: { width: '100%' } } }}
+            >
+              Dispose model
+            </Button>
+          </Block>
+
+          <Block display="flex">
+            <Button
+              onClick={onDatasetDispose}
+              overrides={{ Root: { style: { width: '100%' } } }}
+            >
+              Dispose dataset
+            </Button>
+          </Block>
+
+          <Block display="flex" flexDirection="column">
+            <Button
+              onClick={onTensorInfo}
+              overrides={{ Root: { style: { width: '100%' } } }}
+            >
+              Print EngineState console
+            </Button>
+          </Block>
+
+          <Block display="flex" flexDirection="column">
+            <Button
+              onClick={onMemoryInfo}
+              overrides={{ Root: { style: { width: '100%' } } }}
+            >
+              Update memory info
+            </Button>
+          </Block>
         </Block>
 
-        <Block display="flex">
-          <Button
-            onClick={onDatasetDispose}
-            overrides={{ Root: { style: { width: '100%' } } }}
-          >
-            Dispose Dataset
-          </Button>
-        </Block>
-
-        <Block display="flex" flexDirection="column">
-          <Button
-            onClick={onMemoryInfo}
-            overrides={{ Root: { style: { width: '100%' } } }}
-          >
-            Update Memory Info
-          </Button>
+        <Block display="flex" flexDirection="column" flex="1">
+          <FormControl>
+            <Textarea
+              size={SIZE.compact}
+              value={memory ? JSON.stringify(memory, null, 2) : undefined}
+              readOnly
+              rows={11}
+            />
+          </FormControl>
         </Block>
       </Block>
-
-      <Block display="flex" flexDirection="column" flex="1">
-        <FormControl>
-          <Textarea
-            size={SIZE.compact}
-            value={memory ? JSON.stringify(memory, null, 2) : undefined}
-            readOnly
-            rows={8}
-          />
-        </FormControl>
-      </Block>
-    </Block>
+    </>
   )
 }
