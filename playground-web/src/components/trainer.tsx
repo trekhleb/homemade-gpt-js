@@ -34,9 +34,9 @@ export function Trainer(props: TrainerProps) {
   const { model, dataset } = props
 
   const [batchSize, setBatchSize] = React.useState<number>(8)
-  const [maxEpochs, setMaxEpochs] = React.useState<number>(1800)
+  const [maxEpochs, setMaxEpochs] = React.useState<number>(2000)
   const [learningRate, setLearningRate] = React.useState<string>('0.001')
-  const [evalInterval, setEvalInterval] = React.useState<number>(300)
+  const [evalInterval, setEvalInterval] = React.useState<number>(200)
   const [evalIterations, setEvalIterations] = React.useState<number>(50)
 
   const [batchSizeErr, setBatchSizeErr] = React.useState<string>()
