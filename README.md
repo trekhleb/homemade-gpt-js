@@ -1,6 +1,6 @@
 # Homemade GPT • JS
 
-![Homemade GPT JS](./assets/cover.jpg)
+![Homemade GPT JS](./playground-web/public/cover.jpg)
 
 @todo: Add description
 
