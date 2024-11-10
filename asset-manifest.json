@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/homemade-gpt-js/static/css/main.45e93004.css",
+    "main.js": "/homemade-gpt-js/static/js/main.818f3864.js",
+    "static/media/cover.jpg": "/homemade-gpt-js/static/media/cover.a1130c37b7413d5d7b92.jpg",
+    "static/media/cover-bg.jpg": "/homemade-gpt-js/static/media/cover-bg.7c5f0d1eb4bc1698d422.jpg",
+    "static/media/turtle.svg": "/homemade-gpt-js/static/media/turtle.9483ea9f1e7b537c30e68f1f8844525f.svg",
+    "index.html": "/homemade-gpt-js/index.html",
+    "main.45e93004.css.map": "/homemade-gpt-js/static/css/main.45e93004.css.map",
+    "main.818f3864.js.map": "/homemade-gpt-js/static/js/main.818f3864.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.45e93004.css",
+    "static/js/main.818f3864.js"
+  ]
+}

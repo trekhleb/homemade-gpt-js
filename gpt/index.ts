@@ -1,6 +1,0 @@
-// export * from './src/model-easier'
-export * from './src/model'
-export * from './src/config'
-export * from './src/trainer'
-export * from './src/types'
-export * from './src/dataset'

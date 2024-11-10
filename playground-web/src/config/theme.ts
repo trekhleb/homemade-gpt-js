@@ -1,1 +1,0 @@
-export const WINDOW_PADDING_HORIZONTAL = '12px'
