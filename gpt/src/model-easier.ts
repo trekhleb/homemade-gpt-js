@@ -1,7 +1,7 @@
 /**
  * Full definition of a GPT Language Model, all of it in this single file.
  *
- * This is a tensorflow.js version of pytorch-based miniGPT from Andrej Karpathy:
+ * This is a tensorflow.js version of pytorch-based minGPT from Andrej Karpathy:
  * - https://github.com/karpathy/ng-video-lecture
  * - https://github.com/karpathy/nanoGPT
  * - https://github.com/karpathy/minGPT

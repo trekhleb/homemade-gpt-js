@@ -67,7 +67,7 @@ export function Banner() {
               </ParagraphSmall>
 
               <ParagraphSmall $style={paragraphStyle}>
-                Since GPT{' '}
+                Since{' '}
                 <a href={GPT_MODEL_FILE_PATH} style={linkStyle}>
                   model.ts
                 </a>{' '}

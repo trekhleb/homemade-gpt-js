@@ -1,10 +1,11 @@
 /**
  * Nothing specific to GPT here, only a generic character-level
  * dataset wrapper.
- *
- * A helper wrapper on top of any .txt file data-set.
- * It loads the file, splits it into training and testing batches,
- * encodes/decodes letter to indices and vice versa.
+ * 
+ * A helper wrapper on top of any txt-file-based character-level 
+ * dataset. It loads arbitrary txt file,treats each letter as a token, 
+ * splits the characters into training and testing batches, 
+ * encodes/decodes letters to indices and vice versa.
  */
 import * as tf from '@tensorflow/tfjs'
 import { Dataset, DatasetGetBatchParams, DatasetParams } from './types'
