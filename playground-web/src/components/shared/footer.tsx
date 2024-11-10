@@ -2,15 +2,12 @@ import { Block } from 'baseui/block'
 import { Button, SHAPE, KIND } from 'baseui/button'
 import { IoLogoGithub } from 'react-icons/io'
 import { FaXTwitter } from 'react-icons/fa6'
-import { REPO_URL, X_URL } from '../../config/links'
+import { BiHomeAlt } from 'react-icons/bi'
+import { REPO_URL, TREKHLEB_DEV_URL, X_URL } from '../../config/links'
 
 export function Footer() {
   return (
-    <Block
-      display="flex"
-      marginBottom="scale1000"
-      flexDirection="column"
-    >
+    <Block display="flex" marginBottom="scale1000" flexDirection="column">
       <Block
         marginTop="scale1000"
         paddingTop="scale1000"
@@ -29,6 +26,7 @@ export function Footer() {
         >
           <IoLogoGithub size={26} />
         </Button>
+
         <Button
           $as="a"
           href={X_URL}
@@ -37,6 +35,10 @@ export function Footer() {
           target="_blank"
         >
           <FaXTwitter size={23} />
+        </Button>
+
+        <Button $as="a" href={TREKHLEB_DEV_URL} shape={SHAPE.circle} kind={KIND.tertiary}>
+          <BiHomeAlt size={25} />
         </Button>
       </Block>
     </Block>
