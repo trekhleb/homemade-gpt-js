@@ -69,15 +69,6 @@ export function Debugger(props: DebuggerProps) {
 
           <Block display="flex" flexDirection="column">
             <Button
-              onClick={onTensorInfo}
-              overrides={{ Root: { style: { width: '100%' } } }}
-            >
-              Print EngineState to console
-            </Button>
-          </Block>
-
-          <Block display="flex" flexDirection="column">
-            <Button
               onClick={onMemoryInfo}
               overrides={{ Root: { style: { width: '100%' } } }}
             >
@@ -92,7 +83,7 @@ export function Debugger(props: DebuggerProps) {
               size={SIZE.compact}
               value={memory ? JSON.stringify(memory, null, 2) : undefined}
               readOnly
-              rows={11}
+              rows={8}
             />
           </FormControl>
         </Block>

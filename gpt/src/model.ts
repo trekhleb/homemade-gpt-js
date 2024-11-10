@@ -76,65 +76,62 @@ export function GPT(params: ModelParams): Model {
       let { idx } = params
 
       for (let i = 0; i < maxNewTokens; i++) {
-        const T = idx.shape[1]!
+        const idxNext = tf.tidy(() => {
+          const T = idx.shape[1]!
 
-        const idxShaped = tf.concat(
-          [
-            // If idx is too long - truncate the beginning of time dimension and keep the end
-            idx.slice([0, Math.max(0, T - blockSize)], [-1, Math.min(T, blockSize)]),
-            // If idx is too short - pad the time dimension with -1 (keep the beginning)
-            tf.zeros([idx.shape[0], Math.max(0, blockSize - T)], 'int32'),
-          ],
-          1,
-        )
+          const idxShaped = tf.concat(
+            [
+              // If idx is too long - truncate the beginning of time dimension and keep the end
+              idx.slice([0, Math.max(0, T - blockSize)], [-1, Math.min(T, blockSize)]),
+              // If idx is too short - pad the time dimension with -1 (keep the beginning)
+              tf.zeros([idx.shape[0], Math.max(0, blockSize - T)], 'int32'),
+            ],
+            1,
+          )
 
-        // Forward the model to get the logits for the index in the sequence
-        const logits = model.apply(idxShaped) // (B,T,C)
+          // Forward the model to get the logits for the index in the sequence
+          const logits = model.apply(idxShaped) // (B,T,C)
 
-        // Focus only on the last time step (all from first axis, last from second axis, all from third axis)
-        // Remove the second axis dimension (because it is 1 after the slice) using tf.squeeze()
-        let lastCharLogits = logits.slice([0, i < blockSize ? i : blockSize - 1, 0], [-1, 1, -1]).squeeze([1]) // Becomes (B, C)
+          // Focus only on the last time step (all from first axis, last from second axis, all from third axis)
+          // Remove the second axis dimension (because it is 1 after the slice) using tf.squeeze()
+          let lastCharLogits = logits.slice([0, i < blockSize ? i : blockSize - 1, 0], [-1, 1, -1]).squeeze([1]) // Becomes (B, C)
 
-        // Scale by desired temperature
-        lastCharLogits = tf.div(lastCharLogits, tf.scalar(temperature))
+          // Scale by desired temperature
+          lastCharLogits = tf.div(lastCharLogits, tf.scalar(temperature))
 
-        if (topK) {
-          const { values } = lastCharLogits.topk(Math.min(topK, vocabSize))
-          const smallestTopK = values.slice([0, values.shape[1]! - 1]) // Last element in the array, since topk sorts the values
-          lastCharLogits = lastCharLogits.where(lastCharLogits.greaterEqual(smallestTopK), tf.scalar(-Infinity))
-        }
-
-        // Apply softmax to convert logits to (normalized) probabilities
-        const probs = tf.softmax(lastCharLogits) as tf.Tensor2D // (B, C)
-
-        let idxNext: tf.Tensor
-        let idxNextSliced: tf.Tensor | null = null
-        let sampled: tf.Tensor | null = null
-
-        // Either sample from the distribution or take the most likely element
-        if (doSample) {
-          const backend = tf.getBackend()
-          if (backend === 'webgpu') {
-            // 1st sample from tf.multinomial is always zero in webgpu backend
-            // @see: https://github.com/tensorflow/tfjs/issues/8057
-            sampled = tf.multinomial(probs, 2, undefined, true)
-            idxNextSliced = sampled.slice([0, 1], [1, 1]) // (B, 1)
-            idxNext = idxNextSliced
-          } else if (backend === 'tensorflow') {
-            // TF Node backend does not support normalized logits passed to multinomial
-            sampled = tf.multinomial(lastCharLogits as tf.Tensor2D, 1) // (B, 1)
-            idxNext = sampled
-          } else {
-            sampled = tf.multinomial(probs, 1, undefined, true) // (B, 1)
-            idxNext = sampled
+          if (topK) {
+            const { values } = lastCharLogits.topk(Math.min(topK, vocabSize))
+            const smallestTopK = values.slice([0, values.shape[1]! - 1]) // Last element in the array, since topk sorts the values
+            lastCharLogits = lastCharLogits.where(lastCharLogits.greaterEqual(smallestTopK), tf.scalar(-Infinity))
           }
-        } else {
-          sampled = probs.argMax(-1).expandDims(-1)
-          idxNext = sampled
-        }
+
+          // Apply softmax to convert logits to (normalized) probabilities
+          const probs = tf.softmax(lastCharLogits) as tf.Tensor2D // (B, C)
+
+          let idxNext: tf.Tensor
+
+          // Either sample from the distribution or take the most likely element
+          if (doSample) {
+            const backend = tf.getBackend()
+            if (backend === 'webgpu') {
+              // 1st sample from tf.multinomial is always zero in webgpu backend
+              // @see: https://github.com/tensorflow/tfjs/issues/8057
+              idxNext = tf.multinomial(probs, 2, undefined, true).slice([0, 1], [1, 1]) // (B, 1)
+            } else if (backend === 'tensorflow') {
+              // TF Node backend does not support normalized logits passed to multinomial
+              idxNext = tf.multinomial(lastCharLogits as tf.Tensor2D, 1) // (B, 1)
+            } else {
+              idxNext = tf.multinomial(probs, 1, undefined, true) // (B, 1)
+            }
+          } else {
+            idxNext = probs.argMax(-1).expandDims(-1)
+          }
+
+          return idxNext
+        })
 
         // Append sampled index to the running sequence and continue
-        const oldIdx = idx
+        const idxPrev = idx
         idx = idx.concat(idxNext, 1) // (B, T+1)
 
         if (onGenerateChar) {
@@ -142,7 +139,7 @@ export function GPT(params: ModelParams): Model {
           onGenerateChar(nextToken)
         }
 
-        dispose([idxShaped, logits, lastCharLogits, probs, sampled, idxNextSliced, idxNext, oldIdx])
+        dispose([idxNext, idxPrev])
 
         // For browsers: unblock the main thread (allow the UI to be re-rendered)
         await tf.nextFrame()
