@@ -87,7 +87,12 @@ export function Playground() {
         </Step>
 
         <Step title="5. Generation (Prediction)">
-          <Generator model={model} dataset={dataset} />
+          <Generator
+            model={model}
+            dataset={dataset}
+            modelVariant={modelVariant}
+            datasetId={datasetId}
+          />
         </Step>
 
         <Step title="Debug" accordion closed>
