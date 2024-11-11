@@ -22,6 +22,8 @@ Inside the [./gpt/src/](./gpt/src/) folder you'll find the following files:
 - [dataset.ts](./gpt/src/dataset.ts) - Nothing GPT-specific here. A helper wrapper on top of any txt-file-based character-level dataset. It loads an arbitrary txt file, treats each letter as a token, splits the characters into training and testing batches, and encodes/decodes letters to indices and vice versa.
 - [trainer.ts](./gpt/src/trainer.ts) - Nothing GPT-specific here as well. This file provides a simple training loop that could apply to any arbitrary neural network.
 
+Some pre-trained models weights are published in [homemade-gpt-js-weights](https://github.com/trekhleb/homemade-gpt-js-weights) repository. You may apply them via the web playground ("Generation" section) or via the Node.js playground (`model.setWeights()`).
+
 ### Web Playground
 
 To experiment with model parameters, training, and text generation you may use the [Homemade GPT JS playground](https://trekhleb.dev/homemade-gpt-js).
