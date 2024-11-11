@@ -1,7 +1,7 @@
 import React from 'react'
-import { Dataset as DatasetT, Model as ModelT } from '@gpt/model'
+import { Dataset as DatasetT, Model as ModelT, ModelVariant } from '@gpt/model'
 import { Backend } from './backend'
-import { BackendId } from '../types/playground'
+import { BackendId, DatasetId } from '../types/playground'
 import { Step } from './shared/step'
 import { Dataset } from './dataset'
 import { Model } from './model'
@@ -12,11 +12,16 @@ import { WINDOW_PADDING_HORIZONTAL } from '../config/theme'
 import { Block } from 'baseui/block'
 import { Generator } from './generator'
 import { Debugger } from './debugger'
+import { saveAsFile } from '../utils/file'
 
 export function Playground() {
   const [backend, setBackend] = React.useState<BackendId>()
+
   const [dataset, setDataset] = React.useState<DatasetT>()
+  const [datasetId, setDatasetId] = React.useState<DatasetId>()
+
   const [model, setModel] = React.useState<ModelT>()
+  const [modelVariant, setModelVariant] = React.useState<ModelVariant>()
 
   const onBackendChange = async (backend: BackendId) => {
     model?.dispose?.()
@@ -28,17 +33,27 @@ export function Playground() {
     setBackend(backend)
   }
 
-  const onDatasetChange = async (nextDataset: DatasetT) => {
+  const onDatasetChange = async (nextDataset: DatasetT, nextDatasetId: DatasetId) => {
     model?.dispose?.()
     setModel(undefined)
 
     dataset?.dispose?.()
     setDataset(nextDataset)
+    setDatasetId(nextDatasetId)
   }
 
-  const onModelChange = async (nextModel: ModelT) => {
+  const onModelChange = async (nextModel: ModelT, nextModelVariant: ModelVariant) => {
     model?.dispose?.()
     setModel(nextModel)
+    setModelVariant(nextModelVariant)
+  }
+
+  const onDownloadModelWeights = async () => {
+    const weights = await model?.getWeights?.()
+    if (weights && modelVariant) {
+      const fileName = modelVariant + '--' + datasetId
+      saveAsFile(weights, fileName)
+    }
   }
 
   return (
@@ -63,6 +78,7 @@ export function Playground() {
             backend={backend}
             vocabSize={dataset?.vocabSize}
             onChange={onModelChange}
+            onDownloadModelWeights={onDownloadModelWeights}
           />
         </Step>
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { Dataset as DatasetT, CharDataset } from '@gpt/model'
 import { Block } from 'baseui/block'
 import { SegmentedControl, Segment } from 'baseui/segmented-control'
-import { BackendId } from '../types/playground'
+import { BackendId, DatasetId } from '../types/playground'
 import { FaFeatherAlt } from 'react-icons/fa'
 import { SIZE } from 'baseui/input'
 import { StyledLink } from 'baseui/link'
@@ -19,12 +19,10 @@ import { Count } from './shared/count'
 
 const inputSize = SIZE.mini
 
-type DatasetId = 'shakespeare' | 'recipes' | 'custom'
-
 type StepProps = {
   dataset: DatasetT | undefined
   backend: BackendId | undefined
-  onChange?: (dataset: DatasetT) => Promise<void>
+  onChange?: (dataset: DatasetT, datasetId: DatasetId) => Promise<void>
 }
 
 export function Dataset(props: StepProps) {
@@ -46,7 +44,7 @@ export function Dataset(props: StepProps) {
     try {
       if (nextDatasetId === 'custom') {
         const nextDataset = await CharDataset({ textSource: customDatasetText || '' })
-        await onChange(nextDataset)
+        await onChange(nextDataset, nextDatasetId)
       } else {
         let textSourceURL: string | undefined = undefined
         if (nextDatasetId === 'shakespeare') {
@@ -56,7 +54,7 @@ export function Dataset(props: StepProps) {
         }
         if (textSourceURL) {
           const nextDataset = await CharDataset({ textSourceURL })
-          await onChange(nextDataset)
+          await onChange(nextDataset, nextDatasetId)
         }
       }
       setDatasetId(nextDatasetId)

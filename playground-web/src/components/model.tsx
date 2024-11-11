@@ -20,11 +20,18 @@ type ModelProps = {
   model: ModelT | undefined
   backend: BackendId | undefined
   vocabSize: number | undefined
-  onChange?: (model: ModelT) => Promise<void>
+  onChange?: (model: ModelT, modelVariant: ModelVariant) => Promise<void>
+  onDownloadModelWeights?: () => void
 }
 
 export function Model(props: ModelProps) {
-  const { onChange = () => {}, model, backend, vocabSize } = props
+  const {
+    onChange = () => {},
+    model,
+    backend,
+    vocabSize,
+    onDownloadModelWeights = () => {},
+  } = props
 
   const { enqueue } = useSnackbar()
 
@@ -61,7 +68,7 @@ export function Model(props: ModelProps) {
         nextModel.build() // Initialize weights
         const { params } = nextModel.summary()
 
-        await onChange(nextModel)
+        await onChange(nextModel, nextModelVariant)
 
         setModelVariant(nextModelVariant)
         setNLayer(nextModelConfig.nLayer)
@@ -74,13 +81,6 @@ export function Model(props: ModelProps) {
       }
       setIsLoading(false)
     }, 0)
-  }
-
-  const onDownloadModelWeights = async () => {
-    const weights = await model?.getWeights?.()
-    if (weights) {
-      saveAsFile(weights, modelVariant)
-    }
   }
 
   const onUploadModelWeights = (acceptedFiles: File[]) => {
@@ -317,15 +317,4 @@ const sliderOverrides: SliderOverrides = {
       borderRadius: '50%',
     }),
   },
-}
-
-const saveAsFile = (obj: Object, name: string) => {
-  const jsonString = JSON.stringify(obj)
-  const blob = new Blob([jsonString], { type: 'application/json' })
-  const link = document.createElement('a')
-  link.download = `${name}.json`
-  link.href = URL.createObjectURL(blob)
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
 }
