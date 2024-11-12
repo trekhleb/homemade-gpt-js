@@ -18,6 +18,7 @@ import { MODEL_WEIGHTS_BASE_URL } from '../config/links'
 import { Notification } from './shared/notification'
 import { useSnackbar } from 'baseui/snackbar'
 import { FaCheck } from 'react-icons/fa'
+import { RiDownloadLine } from 'react-icons/ri'
 
 type GeneratorProps = {
   dataset: Dataset | undefined
@@ -191,7 +192,8 @@ export function Generator(props: GeneratorProps) {
         <Block marginBottom="scale600">
           <Card>
             <Accordion
-              accordion
+              accordion={false}
+              initialState={{ expanded: ['pre-trained-weights'] }}
               overrides={{
                 Header: {
                   style: {
@@ -213,7 +215,7 @@ export function Generator(props: GeneratorProps) {
                 PanelContainer: { style: { borderBottomWidth: 0 } },
               }}
             >
-              <Panel title="Apply pre-trained model weights">
+              <Panel key="pre-trained-weights" title="Apply pre-trained model weights">
                 <Notification kind="info" style={{ marginTop: 0, marginBottom: '12px' }}>
                   You may skip the training step and load the pre-trained model weights to
                   do the text generation. This will override your current model weights.
@@ -227,6 +229,7 @@ export function Generator(props: GeneratorProps) {
                   {preTrainedWeightsList.map((weights, index) => (
                     <Button
                       key={index}
+                      startEnhancer={() => <RiDownloadLine />}
                       kind={KIND.secondary}
                       size={BUTTON_SIZE.compact}
                       disabled={isLoadingWeights}
@@ -248,7 +251,7 @@ export function Generator(props: GeneratorProps) {
     <FadeIn>
       <Block>
         <Block>
-          <FlexGrid flexGridColumnCount={[1, 1, 4, 4]} flexGridColumnGap="scale600">
+          <FlexGrid flexGridColumnCount={[1, 1, 5, 5]} flexGridColumnGap="scale600">
             <FlexGridItem>
               <FormControl
                 label="Sequence length"
