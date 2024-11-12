@@ -251,7 +251,7 @@ export function Generator(props: GeneratorProps) {
     <FadeIn>
       <Block>
         <Block>
-          <FlexGrid flexGridColumnCount={[1, 1, 5, 5]} flexGridColumnGap="scale600">
+          <FlexGrid flexGridColumnCount={[1, 1, 4, 4]} flexGridColumnGap="scale600">
             <FlexGridItem>
               <FormControl
                 label="Sequence length"
