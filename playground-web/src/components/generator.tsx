@@ -276,7 +276,7 @@ export function Generator(props: GeneratorProps) {
                 <Input
                   type="number"
                   value={temperature}
-                  onChange={(e) => setTemperature(parseInt(e.target.value))}
+                  onChange={(e) => setTemperature(parseFloat(e.target.value))}
                   min={1}
                   step={1}
                 />
